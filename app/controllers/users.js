@@ -24,14 +24,17 @@ const getItem = async (req, res) => {
 
 const createItem = async (req, res) => {
     try {
-        const { name, age, email } = req.body
+        const { name, age, email, role } = req.body
+        const existingUser = await userModel.findOne({ email }) // Busca si hay otro usuario con el mismo email
+        if (existingUser) { // Si se encuentra otro usuario con el mismo email
+            return res.status(400).send({ error: 'Ya existe otro usuario con el mismo email' })
+        }
         const resDetail = await userModel.create({
-            name, age, email
+            name, age, email, role
         })
-        console.log(process.env.JWT_SECRET)
-       const token = await tokenSign(resDetail); // Llama a tokenSign pasando resDetail como argumento
-
-       res.send({ data: resDetail, token }) // Incluye el token en la respuesta
+        const token = await tokenSign(resDetail);
+        console.log('Se creo el usuario' + resDetail)
+        res.send({ data: resDetail, token })
     } catch (e) {
         httpError(res, e)
     }
@@ -41,21 +44,30 @@ const createItem = async (req, res) => {
 const updateItem = async (req, res) => {
     try {
         const id = req.params.id;
-        const { name, age, email } = req.body;
-        
-        const updatedUser = await userModel.findOneAndUpdate({ _id: id }, { name, age, email }, { new: true });
-        
+        const { name, age, email } = req.cuerpo;
+
+        const existingUser = await userModel.findOne({ email: email });
+
+        if (existingUser && existingUser._id.toString() !== id) {
+            return res.status(400).send('El email ya existe en el sistema');
+        }
+        const updatedUser = await userModel.findOneAndUpdate(
+            { _id: id },
+            { name, age, email },
+            { new: true }
+        );
+
         res.send({ id: id, updatedUser: updatedUser });
     } catch (e) {
         httpError(res, e);
     }
 }
+
+
 const deleteItem = async (req, res) => {
     try {
         const id = req.params.id;
-
         const deletedUser = await userModel.deleteOne({ _id: id });
-
         res.send({ id: id, deletedUser: deletedUser });
     } catch (e) {
         httpError(res, e);
