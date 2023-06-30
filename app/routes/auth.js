@@ -1,9 +1,10 @@
 const express=require("express")
 const router = express.Router()
 
-const {loginCtrl, registerCtrl} = require('../controllers/auth')
+const {login, registerCtrl} = require('../controllers/auth')
 
-router.post("/login", loginCtrl)
+//TODO: Donde recibimos data http://localhost:8080/api/users/login
+router.post('/login', login)
 
 
 router.post("/register", registerCtrl)

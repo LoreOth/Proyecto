@@ -4,42 +4,21 @@ const { tokenSign } = require('../helpers/generateToken')
 const userModel = require('../models/users')
 
 //TODO: Login!
-const loginCtrl = async (req, res) => {
+const login = async (req, res) => {
     try {
         const { email, password } = req.body
-
-        const user = await userModel.findOne({ email })
-
-        if (!user) {
-            res.status(404)
-            res.send({ error: 'User not found' })
+        const existingUser = await userModel.findOne({ email, password }) 
+        if (existingUser) {
+            const token = await tokenSign(existingUser);
+            console.log('Identidad validada' + existingUser)
+            return res.send({ data: existingUser, token }) // Enviar respuesta exitosa y detener la ejecución
         }
-
-        const checkPassword = await compare(password, user.password) //TODO: Contraseña!
-
-        //TODO JWT 👉
-        const tokenSession = await tokenSign(user) //TODO: 2d2d2d2d2d2d2
-
-        if (checkPassword) { //TODO Contraseña es correcta!
-            res.send({
-                data: user,
-                tokenSession
-            })
-            return
-        }
-
-        if (!checkPassword) {
-            res.status(409)
-            res.send({
-                error: 'Invalid password'
-            })
-            return
-        }
-
+        return res.status(400).send({ error: 'Identidad no válida' }) // Enviar respuesta de error y detener la ejecución
     } catch (e) {
         httpError(res, e)
     }
 }
+
 
 //TODO: Registramos usuario!
 const registerCtrl = async (req, res) => {
@@ -63,4 +42,4 @@ const registerCtrl = async (req, res) => {
 
 
 
-module.exports = { loginCtrl, registerCtrl }
+module.exports = { login, registerCtrl }

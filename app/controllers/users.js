@@ -2,6 +2,7 @@ const { httpError } = require('../helpers/handleError')
 const userModel = require('../models/users')
 const jwt = require('jsonwebtoken');
 const { tokenSign } = require('../helpers/generateToken');
+const crypto = require('crypto');
 
 
 const getItems = async (req, res) => {
@@ -29,8 +30,9 @@ const createItem = async (req, res) => {
         if (existingUser) { // Si se encuentra otro usuario con el mismo email
             return res.status(400).send({ error: 'Ya existe otro usuario con el mismo email' })
         }
+        const password = generateRandomSequence();
         const resDetail = await userModel.create({
-            name, age, email, role
+            name, age, email, role, password 
         })
         const token = await tokenSign(resDetail);
         console.log('Se creo el usuario' + resDetail)
@@ -39,6 +41,16 @@ const createItem = async (req, res) => {
         httpError(res, e)
     }
 }
+
+
+
+const generateRandomSequence = () => {
+  const length = 10;
+  const buffer = crypto.randomBytes(length);
+  const sequence = buffer.toString('hex').slice(0, length);
+
+  return sequence;
+};
 
 
 const updateItem = async (req, res) => {
@@ -73,5 +85,6 @@ const deleteItem = async (req, res) => {
         httpError(res, e);
     }
 }
+
 
 module.exports = { getItem, getItems, deleteItem, createItem, updateItem }

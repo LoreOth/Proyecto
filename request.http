@@ -10,17 +10,17 @@ Content-Type: application/json
 {
     "name": "lorenaAEri",
     "age": 35,
-    "email": "losri@hotmail.com",
+    "email": "lossgrri@hotmail.com",
     "password": "123456",
     "role":"user"
 }
 
 ### 
-@authToken = {{create.response.headers.X-AuthToken}}
+@authToken = {{create.response.body.token}}
 
 # @name Update
 PATCH {{api}}/649e01e72a11b04b5864df95
-Authorization: {{authToken}}
+Authorization: Bearer {{@authToken}} 
 Content-Type: application/json
 
 {
@@ -36,7 +36,7 @@ Content-Type: application/json
 
 # @name GetUser
 GET {{api}}/649e01e72a11b04b5864df95
-Authorization: {{authToken}}
+Authorization: Bearer {{@authToken}} 
 Content-Type: application/json
 
 {
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 # @name DeleteUser
 DELETE {{api}}/649e2fd0efa948379b789dbb
-Authorization: {{authToken}}
+Authorization: Bearer {{@authToken}} 
 Content-Type: application/json
 
 {
