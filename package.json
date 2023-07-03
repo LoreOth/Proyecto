@@ -2,6 +2,16 @@
   "name": "proyecto",
   "version": "1.0.0",
   "description": "",
+  "keywords": [
+    "css",
+    "sass",
+    "scss",
+    "html",
+    "pug",
+    "responsive",
+    "theme",
+    "template"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "mocha tests",
@@ -11,20 +21,40 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "10.4.14",
+    "bootstrap": "4.6.0",
+    "browser-sync": "2.29.1",
+    "chokidar": "3.5.3",
+    "concurrently": "6.3.0",
     "eslint": "^8.43.0",
+    "font-awesome": "4.7.0",
     "istanbul": "^0.4.5",
-    "nodemon": "^2.0.22"
+    "jquery": "3.6.0",
+    "nodemon": "^2.0.22",
+    "postcss": "8.4.21",
+    "prettier": "2.8.6",
+    "pug": "3.0.2",
+    "sass": "1.60.0",
+    "shelljs": "0.8.5",
+    "startbootstrap-clean-blog": "5.1.0",
+    "upath": "2.0.1"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "bootstrap": "5.2.3",
+    "browser-sync": "2.26.14",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-logger-unique-req-id": "^1.0.4",
     "express-validator": "^7.0.1",
+    "font-awesome": "4.7.0",
+    "jquery": "3.6.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "startbootstrap-clean-blog": "5.1.0",
+    "startbootstrap-creative": "^7.0.7"
   }
 }
