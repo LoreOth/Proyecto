@@ -24,8 +24,10 @@ app.use('/api', router)
 app.listen(port)
 console.log('API escuchando en el puerto ' + port)
 
-var cors = require('cors');
 app.use(cors());
+
+app.set('view engine', 'web')
+app.set('web',__dirname+ '/web')
 
 /*lo añado al final de app/server.js:*/
 module.exports = app

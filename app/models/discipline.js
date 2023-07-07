@@ -2,25 +2,30 @@ const mongoose = require('mongoose')
 
 const DisciplineScheme = new mongoose.Schema({
     name: {
-        type: String
+      type: String
     },
     teacher: {
-        type: String
+      type: String
     },
     description: {
-        type: String
+      type: String
     },
-
+  
     days: {
-        type: String
+      type: String
     },
     hour: {
-        type: String,
-    }
-},
-    {
-        timestamps: true,
-        versionKey: false
-    })
-
-module.exports = mongoose.model('discipline', DisciplineScheme)
+      type: String,
+    },
+  
+    // Se agrega el campo "associates"
+    associates: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'associate'
+    }]
+  }, {
+    timestamps: true,
+    versionKey: false
+  });
+  
+  module.exports = mongoose.model('discipline', DisciplineScheme);
